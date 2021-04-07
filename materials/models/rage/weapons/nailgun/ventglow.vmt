@@ -1,0 +1,16 @@
+"UnlitGeneric"
+{
+	"$basetexture"		"models/Rage/Weapons/NailGun/VentGlow"
+
+	"$translucent" "1"
+
+	"Proxies"
+	{
+		 "AnimatedTexture"
+		{
+			"animatedTextureVar" "$basetexture"
+			"animatedTextureFrameNumVar" "$frame"
+			"animatedTextureFrameRate" "15"
+		}
+        	}
+}

@@ -1,0 +1,5 @@
+"UnlitGeneric"
+{
+	"$basetexture" "Vgui/rage_cursor_pickup"
+	$translucent 1
+}

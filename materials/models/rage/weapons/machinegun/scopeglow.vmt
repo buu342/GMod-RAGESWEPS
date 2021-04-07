@@ -1,0 +1,17 @@
+"UnlitGeneric"
+{
+	$additive 1
+	$envmap env_cubemap
+	$envmaptint "[0.44 0.38 0.32]"
+	"$basetexture" "models/Rage/Weapons/MachineGun/ScopeGlow"
+	$selfilum 1
+	"Proxies"
+	{
+		"TextureScroll"
+		{
+			"texturescrollvar" "$baseTextureTransform"
+			"texturescrollrate" 0.1
+			"texturescrollangle" 270.00
+		}
+	}
+}

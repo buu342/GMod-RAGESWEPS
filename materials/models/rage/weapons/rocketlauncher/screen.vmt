@@ -1,0 +1,5 @@
+"VertexLitGeneric"
+{
+	"$basetexture"		"models/Rage/Weapons/RocketLauncher/Screen"
+	"$selfillum" "1"
+}

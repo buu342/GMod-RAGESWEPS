@@ -1,0 +1,6 @@
+"VertexLitGeneric"
+{
+	"$basetexture"		"models/Rage/Weapons/NailGun/RailGunGlow"
+	$selfillum 1
+	$additive 1
+}

@@ -1,0 +1,9 @@
+"VertexLitGeneric"
+{
+	"$basetexture"		"models/Rage/Weapons/Crossbow/Wire"
+
+	"$phong" "1"
+	"$phongexponent" "400"
+	"$phongboost"	"1"
+	"$phongfresnelranges"	"[.2 4 1]"
+}
