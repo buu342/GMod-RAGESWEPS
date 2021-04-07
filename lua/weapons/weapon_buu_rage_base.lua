@@ -322,6 +322,7 @@ end
 -----------------------------*/
 
 function SWEP:MuzzleFlashEffect(attachment)
+
     if (self.Silenced) then return end
     
     -- Select which effect to use
@@ -616,14 +617,14 @@ if (CLIENT) then
         local ply = LocalPlayer()
     
         -- If a Wingstick is currently being thrown
-        if (ply.ThrowingStick != nil && ply.ThrowingStick > CurTime()) then
+        if (ply.ThrowingStick != nil && ply.ThrowingStick > CurTime() && GetViewEntity() == LocalPlayer() && !LocalPlayer():ShouldDrawLocalPlayer()) then
         
             -- Create a 3D camera, and iterate through all the entities
             cam.Start3D(EyePos(), EyeAngles(), 50) 
                 for k, v in pairs(ents.GetAll()) do 
                 
                     -- If we found our viewmodel
-                    if v:GetClass() == "viewmodel" then
+                    if (v:GetClass() == "viewmodel") then
                     
                         -- Don't manipulate our current viewmodel model
                         v:SetRenderOrigin(EyePos())
@@ -682,6 +683,42 @@ if (CLIENT) then
         end
     end
     hook.Add("RenderScreenspaceEffects", "Buu_RAGE_ThrowingAnimation", Buu_RAGE_ThrowingAnimation)
+    
+    
+    /*-----------------------------
+        Buu_RAGE_WingstickAnimTP
+        Plays an animation in thirdperson when throwing a Wingstick
+    -----------------------------*/
+    
+    local function Buu_RAGE_WingstickAnimTP(ply)
+    
+        -- If we haven't initialized the animation tracker variable, do so
+        if (ply.CurrentWingstickCycle == nil) then
+            ply.TPWingstickAnimPlaying = false
+        end
+        
+        -- If we're throwing a Wingstick
+        if (ply.ThrowingStick != nil && ply.ThrowingStick > CurTime()) then
+            
+            -- If the player animation cycle hasn't been reset, do so
+            if (!ply.TPWingstickAnimPlaying) then
+                ply.TPWingstickAnimPlaying = true
+                ply:SetCycle(0)
+            end
+            
+            -- Play a throwing animation
+            ply:SetPlaybackRate(1)
+            ply.CalcIdeal = ACT_MP_STAND_IDLE
+            ply.CalcSeqOverride = -1
+            ply.CalcSeqOverride = ply:LookupSequence("seq_baton_swing")
+            return ply.CalcIdeal, ply.CalcSeqOverride
+        else
+        
+            -- Otherwise, reset the animation tracker
+            ply.TPWingstickAnimPlaying = false
+        end
+    end
+    hook.Add("CalcMainActivity", "Buu_RAGE_WingstickAnimTP", Buu_RAGE_WingstickAnimTP)
 
 
     /*-----------------------------
@@ -692,7 +729,7 @@ if (CLIENT) then
     -----------------------------*/
 
     local function Buu_RAGE_AmmoCountHUD(ammotype)
-        if (ammotype == nil || ammotype == "" || ammotype == "none") then return 0 end
+        if (ammotype == nil || ammotype == "" || ammotype == "none" || !LocalPlayer():Alive()) then return 0 end
     
         -- Get the player's ammo count
         local count = LocalPlayer():GetAmmoCount(ammotype)
@@ -784,7 +821,7 @@ if (CLIENT) then
             end
             
             -- If the drawing stack isn't empty
-            if (#drawstack != 0) then
+            if (#drawstack != 0 && LocalPlayer():Alive()) then
                 local recheight = (#drawstack/2)*iconh
                 local starty = math.Clamp(ScrH()*GetConVar("cl_buu_rage_ammoy"):GetFloat()-recheight, 0, ScrH()-recheight*2)
                 
@@ -816,7 +853,7 @@ if (CLIENT) then
         end
     end
     hook.Add("HUDPaint", "Buu_RAGE_AmmoHUD", Buu_RAGE_AmmoHUD)
-
+    
 
     /*-----------------------------
         Buu_RAGE_ClientsideWingstickThrow

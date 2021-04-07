@@ -87,7 +87,7 @@ SWEP.Tertiary.Light         = Color(0, 255, 100)
 SWEP.Tertiary.Tracer        = "fx_rage_railtracer"
 
 -- Ironsight settings
-SWEP.IronsightVMFOV = 1.20
+SWEP.IronsightVMFOV = 0.7
 
 -- Scope settings
 SWEP.Sniper        = false -- Disabled by default since the firemode will enable it
@@ -455,7 +455,7 @@ if (CLIENT) then
         -- Dot sight
         surface.SetDrawColor(255, 255, 255, 150-math.cos(CurTime()*40)*30)
         surface.SetTexture(surface.GetTextureID(CrosshairTexture1))
-        surface.DrawTexturedRectUV(scrwh-13*hratio, scrhh-13, 26*hratio, 26*hratio, 0, 0, 1, 1)
+        surface.DrawTexturedRectUV(scrwh-13*hratio, scrhh-13*hratio, 26*hratio, 26*hratio, 0, 0, 1, 1)
         
         -- Dot box
         surface.SetDrawColor(255, 255, 255, 70)
@@ -527,7 +527,7 @@ if (CLIENT) then
                 surface.SetTextColor(187, 245, 139, 200-150*math.sin(CurTime()*50))
                 surface.SetFont("RAGE_RailGunFont")
                 local tw, th = surface.GetTextSize(text)
-                surface.SetTextPos(scrwh-tw/2, scrhh+40*hratio)
+                surface.SetTextPos(scrwh-tw/2, scrhh+30*hratio)
                 surface.DrawText(text)
             end
         end

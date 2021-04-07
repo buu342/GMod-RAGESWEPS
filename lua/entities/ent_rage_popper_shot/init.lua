@@ -41,6 +41,10 @@ end
 
 function ENT:PhysicsCollide(data, collider)
 
+    -- Correct for any invalid entities
+    if (!IsValid(self.Inflictor)) then self.Inflictor = self end
+    if (!IsValid(self.Owner)) then self.Owner = self end
+    
     -- Create an explosion
     util.BlastDamage(self.Inflictor, self.Owner, self:GetPos(), 80, 150)
     ParticleEffect("rage_eff_explo", self:GetPos(), self:GetAngles())

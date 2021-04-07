@@ -96,12 +96,11 @@ SWEP.Quaternary.Ammo            = "ammo_rage_tnt"
 SWEP.Quaternary.Silenced        = true
 SWEP.Quaternary.BodyGroup       = 2
 
--- Crosshair and ironsight settings
+-- Crosshair settings
 SWEP.CrosshairType  = 2
-SWEP.IronsightVMFOV = 1.25
 
 -- Ironsight positions
-SWEP.IronSightsPos = Vector(-6.18, -15.679, 2.69)
+SWEP.IronSightsPos = Vector(-6.18, -15.679, 1.85)
 SWEP.IronSightsAng = Vector(-1.107, -3.274, 3.359)
 
 -- Sprinting/Nearwall positions

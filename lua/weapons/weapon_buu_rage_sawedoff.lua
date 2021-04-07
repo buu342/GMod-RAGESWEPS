@@ -91,7 +91,6 @@ SWEP.CrosshairRecoil = -0.5
 
 -- Ironsight settings
 SWEP.IronsightSound = 1
-SWEP.IronsightVMFOV = 1.45
 
 -- Ironsight positions
 SWEP.IronSightsPos = Vector(-4.72, 0, 1.24)
@@ -241,8 +240,6 @@ local function SetUpgrades(wep, enable)
         wep.IronsightOutAnim = ACT_VM_LOWERED_TO_IDLE
         wep.IronsightRoll    = false
         wep.PlayFullIronAnim = true
-        wep.IronVMFOVOld     = wep.IronsightVMFOV
-        wep.IronsightVMFOV   = 1
     else
         wep.IronSightsPos    = wep.OldIronSightPos
         wep.IronSightsAng    = wep.OldIronSightAng
@@ -250,7 +247,6 @@ local function SetUpgrades(wep, enable)
         wep.IronsightOutAnim = -1
         wep.IronsightRoll    = true
         wep.PlayFullIronAnim = false
-        wep.IronsightVMFOV   = wep.IronVMFOVOld
     end
 end
 
