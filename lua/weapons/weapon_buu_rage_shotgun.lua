@@ -91,7 +91,6 @@ SWEP.CrosshairRecoil = 0.2
 
 -- Ironsight settings
 SWEP.IronsightSound     = 3
-SWEP.IronsightVMFOV     = 1.50
 SWEP.UseNormalShootIron = false
 
 -- Ironsight positions

@@ -96,19 +96,30 @@ function ENT:Think()
             phys:EnableGravity(false) 
             self:SetMoveType(MOVETYPE_NONE)
             self:PhysicsInit(SOLID_NONE)
+            
+            -- Set our position to where we collided
+            if (IsValid(self.HitEnt)) then
+            
+                -- Figure out how much our object rotated since last tick
+                local entanglechange = (self.HitEnt:GetAngles()-self.HitPosAng[4])
+                
+                -- Create a rotation matrix
+                local M = Matrix()
+                M:Rotate(entanglechange)
+                
+                -- Calculate the final position from the rotation matrix
+                self:SetPos(self.HitEnt:GetPos()+M*self.HitPosAng[3])
+                self:SetAngles(self.HitPosAng[2])          
+            else
+                self:SetPos(self.HitPosAng[1])
+                self:SetAngles(self.HitPosAng[2])
+            end
             self.Stopped = true
         end
         
-        -- If we didn't hit the world
-        if (self.HitEnt != nil && !self.HitEnt:IsWorld()) then
-        
-            -- Parent ourselves to the entity we hit
+        -- If we didn't hit the world, parent ourselves to the entity we hit
+        if (self.HitEnt != nil && IsValid(self.HitEnt) && !self.HitEnt:IsWorld()) then
             self:SetParent(self.HitEnt)
-        else
-        
-            -- Otherwise, set our position to where we collided
-            self:SetPos(self.HitPosAng[1])
-            self:SetAngles(self.HitPosAng[2])
         end
     end
     
@@ -167,6 +178,10 @@ function ENT:PhysicsCollide(data, collider)
             if (util.TraceLine(tr).HitGroup  == HITGROUP_HEAD) then
                 scale = 2
             end
+            
+            -- Store the hit position relative to the entity's position, as well as the entity's angles
+            self.HitPosAng[3] = data.HitPos-data.HitEntity:GetPos()
+            self.HitPosAng[4] = data.HitEntity:GetAngles()
             
             -- Setup the damageinfo object and apply damage to what we hit
             dmginfo:SetDamage(self.DirectDamage*scale)

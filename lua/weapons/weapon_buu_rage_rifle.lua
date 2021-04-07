@@ -69,7 +69,6 @@ SWEP.Secondary.Muzzle           = "rage_muzzle_ar_feltrite"
 SWEP.Secondary.Light            = Color(0, 150, 205)
 
 -- Ironsight settings
-SWEP.IronsightVMFOV     = 1.54
 SWEP.UseNormalShootIron = false
 
 -- Ironsight positions

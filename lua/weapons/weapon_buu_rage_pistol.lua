@@ -121,7 +121,6 @@ SWEP.Quaternary.MagModel      = "models/weapons/w_rage_pistol_mag2.mdl"
 
 -- Ironsight settings
 SWEP.IronsightSound     = 1
-SWEP.IronsightVMFOV     = 1.3
 SWEP.UseNormalShootIron = false
 
 -- Scope settings
@@ -211,8 +210,6 @@ local function SetUpgrades(wep, enable)
         wep.IronsightOutAnim = ACT_VM_LOWERED_TO_IDLE
         wep.IronsightRoll    = false
         wep.PlayFullIronAnim = true
-        wep.IronVMFOVOld     = wep.IronsightVMFOV
-        wep.IronsightVMFOV   = 1
     else
         wep.IronSightsPos    = wep.OldIronSightPos
         wep.IronSightsAng    = wep.OldIronSightAng
@@ -220,7 +217,6 @@ local function SetUpgrades(wep, enable)
         wep.IronsightOutAnim = -1
         wep.IronsightRoll    = true
         wep.PlayFullIronAnim = false
-        wep.IronsightVMFOV   = wep.IronVMFOVOld
     end
 end
 

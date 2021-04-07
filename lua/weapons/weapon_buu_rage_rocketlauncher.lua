@@ -72,6 +72,7 @@ SWEP.IronsightSound     = 3
 SWEP.UseNormalShootIron = false
 SWEP.IronsightRoll      = false
 SWEP.PlayFullIronAnim   = true
+SWEP.IronsightVMFOV     = 0.75
 
 -- Scope settings
 SWEP.Sniper        = true
@@ -449,7 +450,7 @@ if (CLIENT) then
         -- Ammo text
         surface.SetTextColor(255, 0, 0, 200)
         surface.SetFont("RAGE_RPGAmmoFont")
-        surface.SetTextPos(ScrW()/2+362*wratio-tw, ScrH()/2+206*hratio)
+        surface.SetTextPos(ScrW()/2+352*wratio-tw, ScrH()/2+208*hratio)
         surface.DrawText(ammocount)
         
         -- Viper target

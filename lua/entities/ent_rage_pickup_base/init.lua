@@ -24,7 +24,7 @@ function ENT:Initialize()
     self:SetModel(self.Model)
     self:PhysicsInit(SOLID_VPHYSICS)
     self:SetMoveType(MOVETYPE_VPHYSICS)
-    self:SetSolid(SOLID_VPHYSICS )
+    self:SetSolid(SOLID_VPHYSICS)
     self:DrawShadow(true)
     
     -- Wake up the physics

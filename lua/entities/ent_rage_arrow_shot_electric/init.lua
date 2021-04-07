@@ -69,7 +69,7 @@ function ENT:Think()
                 if (self.NextDamageTime != 0) then
                     
                     -- If the entity we hit is valid
-                    if (self.HitEnt != nil) then
+                    if (self.HitEnt != nil && IsValid(self.HitEnt)) then
                     
                         -- Damage the entity
                         local dmginfo = DamageInfo()
@@ -92,7 +92,7 @@ function ENT:Think()
                 end
                 
                 -- If we're under water, or we're attached to an entity on water
-                if (self:WaterLevel() > 0 || (self.HitEnt != nil && self.HitEnt:WaterLevel() > 0)) then
+                if (self:WaterLevel() > 0 || (self.HitEnt != nil && IsValid(self.HitEnt) && self.HitEnt:WaterLevel() > 0)) then
                 
                     -- Find all the entities near us
                     for k, v in pairs(ents.FindInSphere(self:GetPos(), self.ElecticWaterRadius)) do
