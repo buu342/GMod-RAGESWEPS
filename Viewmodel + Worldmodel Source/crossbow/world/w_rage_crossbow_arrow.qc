@@ -2,7 +2,7 @@
 
 $modelname "weapons/w_rage_crossbow_arrow.mdl"
 
-$attachment "muzzle" "ValveBiped.Weapon_bone" 6.20 0.30 -2.00 rotate -0 -180 0
+$attachment "muzzle" "ValveBiped.Weapon_bone" 5.23 0.12 -5.30 rotate -25 -180 -180
 
 $origin -0.8049362 7.450902 1.8360167 180
 $illumposition 0 0 0
