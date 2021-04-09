@@ -29,3 +29,5 @@ PrecacheParticleSystem("rage_proj_bfg_explo")              -- BFG Ball explosion
 PrecacheParticleSystem("rage_eff_explo")                   -- Small explosions (Pop rockets, Dynamite arrows)
 PrecacheParticleSystem("rage_eff_explo_large")             -- Big explosions (RPG, Crossbow)
 PrecacheParticleSystem("rage_eff_pulse_hit")               -- Authority Pulse Cannon bullet hit
+PrecacheParticleSystem("rage_proj_poprocket_fire")         -- Pop-Rocket Fireball
+PrecacheParticleSystem("rage_eff_rocket_flare")            -- Rocket Flame Lensflare
