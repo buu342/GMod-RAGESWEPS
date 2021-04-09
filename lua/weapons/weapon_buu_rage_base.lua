@@ -729,7 +729,7 @@ if (CLIENT) then
     -----------------------------*/
 
     local function Buu_RAGE_AmmoCountHUD(ammotype)
-        if (ammotype == nil || ammotype == "" || ammotype == "none" || !LocalPlayer():Alive()) then return 0 end
+        if (ammotype == nil || ammotype == "" || ammotype == "none" || !LocalPlayer():Alive() || !IsValid(LocalPlayer():GetActiveWeapon())) then return 0 end
     
         -- Get the player's ammo count
         local count = LocalPlayer():GetAmmoCount(ammotype)
