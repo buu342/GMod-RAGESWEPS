@@ -20,11 +20,14 @@ if CLIENT then
             RageSWEPsSettings.Options["#Default"] = {    
                 cl_buu_rage_wingstickbutton = tostring(KEY_G),
                 cl_buu_rage_ammobutton = tostring(KEY_N),
+                cl_buu_rage_ammobuttonback = tostring(KEY_M),
                 cl_buu_rage_showwingsticks = "1",
                 cl_buu_rage_alwaysshowwingsticks = "1",
                 cl_buu_rage_clipincount = "0",
+                cl_buu_rage_showammo = "1",
                 cl_buu_rage_showcurrammo = "1",
                 cl_buu_rage_nonemptyammo = "1",
+                cl_buu_rage_ammox = "1",
                 cl_buu_rage_ammoy = "0.5",
                 cl_buu_rage_ammotrans = "128",
             }
@@ -32,7 +35,8 @@ if CLIENT then
             panel:AddControl("ComboBox", RageSWEPsSettings)
             
             panel:AddControl( "Numpad", { Label = "Wingstick Key", Command = "cl_buu_rage_wingstickbutton", ButtonSize = 22 } )
-            panel:AddControl( "Numpad", { Label = "Ammo Swap Key", Command = "cl_buu_rage_ammobutton", ButtonSize = 22 } )
+            panel:AddControl( "Numpad", { Label = "Ammo Swap Key (Forward)", Command = "cl_buu_rage_ammobutton", ButtonSize = 22 } )
+            panel:AddControl( "Numpad", { Label = "Ammo Swap Key (Backward)", Command = "cl_buu_rage_ammobuttonback", ButtonSize = 22 } )
             
             panel:AddControl("Label", {Text = ""})
             
@@ -47,6 +51,11 @@ if CLIENT then
             })
             
             panel:AddControl("Label", {Text = ""})
+            
+            panel:AddControl("CheckBox", {
+                Label = "Show special ammo types",
+                Command = "cl_buu_rage_showammo",
+            })
             
             panel:AddControl("CheckBox", {
                 Label = "Only display ammo if it's not 0",
@@ -64,6 +73,14 @@ if CLIENT then
             })
             
             panel:AddControl("Label", {Text = ""})
+            
+            panel:AddControl("Slider", {
+                Label     = "Ammo Display x",
+                Command     = "cl_buu_rage_ammox",
+                Type         = "Float",
+                Min         = "0",
+                Max         = "1",
+            })
             
             panel:AddControl("Slider", {
                 Label     = "Ammo Display Y",
@@ -157,6 +174,10 @@ if (!ConVarExists("cl_buu_rage_ammobutton")) then
     CreateClientConVar("cl_buu_rage_ammobutton", tostring(KEY_N), FCVAR_ARCHIVE)
 end
 
+if (!ConVarExists("cl_buu_rage_ammobuttonback")) then
+    CreateClientConVar("cl_buu_rage_ammobuttonback", tostring(KEY_M), FCVAR_ARCHIVE)
+end
+
 if (!ConVarExists("cl_buu_rage_showwingsticks")) then
     CreateClientConVar("cl_buu_rage_showwingsticks", '1', FCVAR_ARCHIVE)
 end
@@ -169,12 +190,20 @@ if (!ConVarExists("cl_buu_rage_clipincount")) then
     CreateClientConVar("cl_buu_rage_clipincount", '0', FCVAR_ARCHIVE)
 end
 
+if (!ConVarExists("cl_buu_rage_showammo")) then
+    CreateClientConVar("cl_buu_rage_showammo", '1', FCVAR_ARCHIVE)
+end
+
 if (!ConVarExists("cl_buu_rage_showcurrammo")) then
     CreateClientConVar("cl_buu_rage_showcurrammo", '1', FCVAR_ARCHIVE)
 end
 
 if (!ConVarExists("cl_buu_rage_nonemptyammo")) then
     CreateClientConVar("cl_buu_rage_nonemptyammo", '1', FCVAR_ARCHIVE)
+end
+
+if (!ConVarExists("cl_buu_rage_ammox")) then
+    CreateClientConVar("cl_buu_rage_ammox", '1', FCVAR_ARCHIVE)
 end
 
 if (!ConVarExists("cl_buu_rage_ammoy")) then

@@ -190,11 +190,12 @@ end
     In my weapon base, the different firemodes are supposed to be
     for things like changing between semi/auto. This extends it to change
     the ammo types, among other things
+    @Param False/Nil if cycling ammo foward, True if cycling backward
 -----------------------------*/
 
--- We need to store a copy of the origina values from the original SWEP.Primary, as we'll be overwriting it
+-- We need to store a copy of the original values from the original SWEP.Primary, as we'll be overwriting it
 SWEP.OriginalPrimary = nil
-function SWEP:HandleFireModeChange()
+function SWEP:HandleFireModeChange(backwards)
     if (self:GetNextPrimaryFire() > CurTime() || self:GetBuu_Reloading()) then return end
 
     -- Initialize a table of the firemodes
@@ -218,8 +219,14 @@ function SWEP:HandleFireModeChange()
     local oldmode = self:GetBuu_FireMode()
     local checking = self:GetBuu_FireMode()
     for i=1, #firemodes do
-        checking = (checking+1)%(#firemodes)
-        currmode = table.Copy(firemodes[checking+1])
+    
+        -- Increment/Decrement the firemode we're checking
+        if (backwards) then
+            checking = (checking-1)%(#firemodes)
+        else
+            checking = (checking+1)%(#firemodes)
+        end
+        currmode = table.Copy(firemodes[checking+1]) -- Plus 1 to prevent indexing zero
         
         -- If we're checking firemode 0, then use the original weapon values
         if (checking == 0) then
@@ -322,7 +329,6 @@ end
 -----------------------------*/
 
 function SWEP:MuzzleFlashEffect(attachment)
-
     if (self.Silenced) then return end
     
     -- Select which effect to use
@@ -337,14 +343,19 @@ function SWEP:MuzzleFlashEffect(attachment)
     
     -- If we have a valid effect
     if (effect != nil && effect != -1 && effect != "") then
-        local ent = self.Owner:GetViewModel()
+        local ent = self
+        
+        -- If we're a player, attach it to the viewmodel
+        if (self.Owner:IsPlayer()) then
+            ent = self.Owner:GetViewModel()
+        end
         
         -- If we're in thirdperson, attach it to the weapon instead of the viewmodel
-        if (LocalPlayer() != self.Owner || self.Owner:ShouldDrawLocalPlayer()) then
+        if (LocalPlayer() != self.Owner || self.Owner:ShouldDrawLocalPlayer() || self.Owner:IsNPC()) then
             ent = self
         end
         
-        -- Emit the effect
+        -- Emit the effect. Doesn't work in SinglePlayer in third person, for some reason...
         ParticleEffectAttach(effect, PATTACH_POINT_FOLLOW, ent, 1)
     end
 end
@@ -465,8 +476,8 @@ local function Buu_RAGE_BindChecks(ply, button)
     end
 
     -- If the player pressed the weapon firemode switch button, then change the weapon mode
-    if (button == GetConVar("cl_buu_rage_ammobutton"):GetInt() && IsValid(wep) && wep.IsRAGEBase) then
-        wep:HandleFireModeChange()
+    if ((button == GetConVar("cl_buu_rage_ammobutton"):GetInt() || button == GetConVar("cl_buu_rage_ammobuttonback"):GetInt()) && IsValid(wep) && wep.IsRAGEBase) then
+        wep:HandleFireModeChange(button == GetConVar("cl_buu_rage_ammobuttonback"):GetInt())
     end
 end
 hook.Add("PlayerButtonDown", "Buu_RAGE_BindChecks", Buu_RAGE_BindChecks)
@@ -599,10 +610,17 @@ if (CLIENT) then
             if change < 0 then
                 change = 0
             end
+            local newpos = pos + Vector(0,0,math.sin(change*2)*5)
+            local newang = ang + Angle(math.sin(change)*30,0,0)
             
             -- Rotate the viewmodel
-            vm:SetRenderOrigin(pos + Vector(0,0,math.sin(change*2)*5))
-            vm:SetRenderAngles(ang + Angle(math.sin(change)*30,0,0))
+            if (weapons.IsBasedOn(wep:GetClass(), "mg_base")) then -- Workaround for Mushroom Guy's Modern Warfare Base
+                wep.m_ViewModel:SetPos(newpos)
+                wep.m_ViewModel:SetAngles(newang)
+            else
+                vm:SetRenderOrigin(newpos)
+                vm:SetRenderAngles(newang)
+            end
         end
     end
     hook.Add("CalcViewModelView", "Buu_RAGE_ThrowingViewModelLower", Buu_RAGE_ThrowingViewModelLower)
@@ -773,6 +791,8 @@ if (CLIENT) then
         outline = false,
     })    
     local function Buu_RAGE_AmmoHUD() 
+    
+        if (!GetConVar("cl_buu_rage_showammo"):GetBool()) then return end
         
         -- If the player is alive
         if (LocalPlayer():Alive()) then
@@ -827,7 +847,9 @@ if (CLIENT) then
                 
                 -- Iterate through the drawing stack
                 for k, v in pairs(drawstack) do
-                    local iconx = ScrW()-iconw
+                    local align = TEXT_ALIGN_RIGHT
+                    local ammox = 0
+                    local iconx = math.Clamp(ScrW()*GetConVar("cl_buu_rage_ammox"):GetFloat(), 0, ScrW()-iconw)
                     local icony = starty+iconh*(k-1)
                     local ammoc = Buu_RAGE_AmmoCountHUD(v[1])
                     local alpha = GetConVar("cl_buu_rage_ammotrans"):GetInt()
@@ -843,11 +865,17 @@ if (CLIENT) then
                         end
                     end
                     
+                    -- Align the text based on the user's ConVar
+                    if (GetConVar("cl_buu_rage_ammox"):GetFloat() < 0.5) then
+                        ammox = iconw
+                        align = TEXT_ALIGN_LEFT
+                    end
+                    
                     -- Draw the ammo icon and count
                     surface.SetDrawColor(255, 255, yellow, alpha)
                     surface.SetTexture(surface.GetTextureID(v[2]))
                     surface.DrawTexturedRect(iconx, icony, iconw, iconh)
-                    draw.SimpleTextOutlined(ammoc, "RAGE_AmmoFont", iconx, icony+iconhh, Color(255, 255, yellow, alpha), TEXT_ALIGN_RIGHT, TEXT_ALIGN_CENTER, 2, Color(0, 0, 0, alpha))
+                    draw.SimpleTextOutlined(ammoc, "RAGE_AmmoFont", iconx+ammox, icony+iconhh, Color(255, 255, yellow, alpha), align, TEXT_ALIGN_CENTER, 2, Color(0, 0, 0, alpha))
                 end
             end
         end

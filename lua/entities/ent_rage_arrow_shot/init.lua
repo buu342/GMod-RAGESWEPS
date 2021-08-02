@@ -138,6 +138,10 @@ end
 -----------------------------*/
 
 function ENT:PhysicsCollide(data, collider)
+    
+    -- Correct for any invalid entities
+    if (!IsValid(self.Inflictor)) then self.Inflictor = self end
+    if (!IsValid(self.Owner)) then self.Owner = self end
 
     -- If we can deal damage
     if (self.DoDamage) then

@@ -59,6 +59,10 @@ local BlastList = {
     "phys_bone_follower",
 }
 function ENT:PhysicsCollide(data, collider)
+    
+    -- Correct for any invalid entities
+    if (!IsValid(self.Inflictor)) then self.Inflictor = self end
+    if (!IsValid(self.Owner)) then self.Owner = self end
 
     -- If we hit an entity
     if (data.HitEntity != nil && IsValid(data.HitEntity)) then

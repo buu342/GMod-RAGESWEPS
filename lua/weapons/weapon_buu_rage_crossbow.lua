@@ -5,6 +5,7 @@ https://github.com/buu342/GMod-RAGESWEPS
 
 AddCSLuaFile()
 DEFINE_BASECLASS( "weapon_buu_rage_base" )
+CLASSNAME = "weapon_buu_rage_crossbow"
 
 -- SWEP Info
 SWEP.PrintName = "Striker Crossbow"
@@ -28,9 +29,9 @@ SWEP.WorldModel   = "models/weapons/w_rage_crossbow.mdl"
 SWEP.ViewModelFOV = 45
 
 -- Icons
-SWEP.KillIcon = "VGUI/entities/weapon_buu_rage_crossbow"
+SWEP.KillIcon = "VGUI/entities/"..CLASSNAME
 if (CLIENT) then
-    killicon.Add("weapon_buu_rage_crossbow", SWEP.KillIcon, Color(255, 255, 255))
+    killicon.Add(CLASSNAME, SWEP.KillIcon, Color(255, 255, 255))
     SWEP.WepSelectIcon = surface.GetTextureID("VGUI/entities/weapon_buu_rage_crossbow")
 end
 
@@ -133,6 +134,9 @@ SWEP.CanSmoke         = false
 SWEP.MuzzleEffectS    = ""
 SWEP.ThirdPersonShell = ""
 SWEP.MuzzleLight      = -1
+
+-- Register for NPCs
+list.Add("NPCUsableWeapons", {class = CLASSNAME, title = SWEP.Category.." "..SWEP.PrintName})
 
 
 /*-----------------------------

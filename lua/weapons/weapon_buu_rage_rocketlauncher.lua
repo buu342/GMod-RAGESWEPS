@@ -5,6 +5,7 @@ https://github.com/buu342/GMod-RAGESWEPS
 
 AddCSLuaFile()
 DEFINE_BASECLASS( "weapon_buu_rage_base" )
+CLASSNAME = "weapon_buu_rage_rocketlauncher"
 
 -- SWEP Info
 SWEP.PrintName = "Rocket Launcher"
@@ -28,9 +29,9 @@ SWEP.WorldModel   = "models/weapons/w_rage_rocketlauncher.mdl"
 SWEP.ViewModelFOV = 45
 
 -- Icons
-SWEP.KillIcon = "VGUI/entities/weapon_buu_rage_rocketlauncher"
+SWEP.KillIcon = "VGUI/entities/"..CLASSNAME
 if (CLIENT) then
-    killicon.Add("weapon_buu_rage_rocketlauncher", SWEP.KillIcon, Color(255, 255, 255))
+    killicon.Add(CLASSNAME, SWEP.KillIcon, Color(255, 255, 255))
     SWEP.WepSelectIcon = surface.GetTextureID(SWEP.KillIcon)
 end
 
@@ -108,6 +109,9 @@ SWEP.MagDropTime = 0.2
 -- Effect settings
 SWEP.MuzzleEffect     = "rage_muzzle_rpg"
 SWEP.ThirdPersonShell = ""
+
+-- Register for NPCs
+list.Add("NPCUsableWeapons", {class = CLASSNAME, title = SWEP.Category.." "..SWEP.PrintName})
 
 
 /*-----------------------------
