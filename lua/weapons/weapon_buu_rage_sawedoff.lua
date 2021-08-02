@@ -5,6 +5,7 @@ https://github.com/buu342/GMod-RAGESWEPS
 
 AddCSLuaFile()
 DEFINE_BASECLASS( "weapon_buu_rage_base" )
+CLASSNAME = "weapon_buu_rage_sawedoff"
 
 -- SWEP Info
 SWEP.PrintName = "Double Barrel Shotgun"
@@ -28,9 +29,9 @@ SWEP.WorldModel   = "models/weapons/w_rage_sawedoff.mdl"
 SWEP.ViewModelFOV = 45
 
 -- Icons
-SWEP.KillIcon = "VGUI/entities/weapon_buu_rage_sawedoff"
+SWEP.KillIcon = "VGUI/entities/"..CLASSNAME
 if (CLIENT) then
-    killicon.Add("weapon_buu_rage_sawedoff", SWEP.KillIcon, Color(255, 255, 255))
+    killicon.Add(CLASSNAME, SWEP.KillIcon, Color(255, 255, 255))
     SWEP.WepSelectIcon = surface.GetTextureID(SWEP.KillIcon)
 end
 
@@ -118,6 +119,9 @@ SWEP.ScopeEnterSound = Sound("RAGE/Weapons/Generic/Monocleopen.wav")
 
 -- Thirdperson effects
 SWEP.ThirdPersonShell = "ShotgunShellEject"
+
+-- Register for NPCs
+list.Add("NPCUsableWeapons", {class = CLASSNAME, title = SWEP.Category.." "..SWEP.PrintName})
 
 
 /*-----------------------------

@@ -5,6 +5,7 @@ https://github.com/buu342/GMod-RAGESWEPS
 
 AddCSLuaFile()
 DEFINE_BASECLASS( "weapon_buu_rage_base" )
+CLASSNAME = "weapon_buu_rage_nailgun"
 
 -- SWEP Info
 SWEP.PrintName = "Nailgun"
@@ -28,9 +29,9 @@ SWEP.WorldModel   = "models/weapons/w_rage_nailgun.mdl"
 SWEP.ViewModelFOV = 42
 
 -- Icons
-SWEP.KillIcon = "VGUI/entities/weapon_buu_rage_nailgun"
+SWEP.KillIcon = "VGUI/entities/"..CLASSNAME
 if (CLIENT) then
-    killicon.Add("weapon_buu_rage_nailgun", SWEP.KillIcon, Color(255, 255, 255))
+    killicon.Add(CLASSNAME, SWEP.KillIcon, Color(255, 255, 255))
     SWEP.WepSelectIcon = surface.GetTextureID(SWEP.KillIcon)
 end
 
@@ -153,6 +154,9 @@ SWEP.CoilCooldownTime = 0.3
 
 -- Don't touch
 SWEP.CleaningUp = false
+
+-- Register for NPCs
+list.Add("NPCUsableWeapons", {class = CLASSNAME, title = SWEP.Category.." "..SWEP.PrintName})
 
 
 /*-----------------------------

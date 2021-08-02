@@ -5,6 +5,7 @@ https://github.com/buu342/GMod-RAGESWEPS
 
 AddCSLuaFile()
 DEFINE_BASECLASS( "weapon_buu_rage_base" )
+CLASSNAME = "weapon_buu_rage_pistol"
 
 -- SWEP Info
 SWEP.PrintName = "Settler Pistol"
@@ -28,9 +29,9 @@ SWEP.WorldModel   = "models/weapons/w_rage_pistol.mdl"
 SWEP.ViewModelFOV = 45
 
 -- Icons
-SWEP.KillIcon = "VGUI/entities/weapon_buu_rage_pistol"
+SWEP.KillIcon = "VGUI/entities/"..CLASSNAME
 if (CLIENT) then
-    killicon.Add("weapon_buu_rage_pistol", SWEP.KillIcon, Color(255, 255, 255))
+    killicon.Add(CLASSNAME, SWEP.KillIcon, Color(255, 255, 255))
     SWEP.WepSelectIcon = surface.GetTextureID(SWEP.KillIcon)
 end
 
@@ -158,6 +159,9 @@ SWEP.VMBGSwapTime = 1.8
 -- Effect settings
 SWEP.MuzzleEffect     = "rage_muzzle_pistol"
 SWEP.ThirdPersonShell = ""
+
+-- Register for NPCs
+list.Add("NPCUsableWeapons", {class = CLASSNAME, title = SWEP.Category.." "..SWEP.PrintName})
 
 
 /*-----------------------------

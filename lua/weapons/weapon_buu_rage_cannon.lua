@@ -5,6 +5,7 @@ https://github.com/buu342/GMod-RAGESWEPS
 
 AddCSLuaFile()
 DEFINE_BASECLASS( "weapon_buu_rage_base" )
+CLASSNAME = "weapon_buu_rage_cannon"
 
 -- SWEP Info
 SWEP.PrintName = "Authority Pulse Cannon"
@@ -28,9 +29,9 @@ SWEP.WorldModel   = "models/weapons/w_rage_cannon.mdl"
 SWEP.ViewModelFOV = 42
 
 -- Icons
-SWEP.KillIcon = "VGUI/entities/weapon_buu_rage_cannon"
+SWEP.KillIcon = "VGUI/entities/"..CLASSNAME
 if (CLIENT) then
-    killicon.Add("weapon_buu_rage_cannon", SWEP.KillIcon, Color(255, 255, 255))
+    killicon.Add(CLASSNAME, SWEP.KillIcon, Color(255, 255, 255))
     SWEP.WepSelectIcon = surface.GetTextureID(SWEP.KillIcon)
 end
 
@@ -90,6 +91,9 @@ SWEP.MuzzleEffect = "rage_muzzle_pulse"
 
 -- Don't touch
 SWEP.CleaningUp = false
+
+-- Register for NPCs
+list.Add("NPCUsableWeapons", {class = CLASSNAME, title = SWEP.Category.." "..SWEP.PrintName})
 
 
 /*-----------------------------

@@ -5,6 +5,7 @@ https://github.com/buu342/GMod-RAGESWEPS
 
 AddCSLuaFile()
 DEFINE_BASECLASS( "weapon_buu_rage_base" )
+CLASSNAME = "weapon_buu_rage_machinegun"
 
 -- SWEP Info
 SWEP.PrintName = "Authority Machine Gun"
@@ -28,9 +29,9 @@ SWEP.WorldModel   = "models/weapons/w_rage_machinegun.mdl"
 SWEP.ViewModelFOV = 42
 
 -- Icons
-SWEP.KillIcon = "VGUI/entities/weapon_buu_rage_machinegun"
+SWEP.KillIcon = "VGUI/entities/"..CLASSNAME
 if (CLIENT) then
-    killicon.Add("weapon_buu_rage_machinegun", SWEP.KillIcon, Color(255, 255, 255))
+    killicon.Add(CLASSNAME, SWEP.KillIcon, Color(255, 255, 255))
     SWEP.WepSelectIcon = surface.GetTextureID(SWEP.KillIcon)
 end
 
@@ -117,6 +118,9 @@ SWEP.LaserAng  = Angle(93.15,-2,0)
 
 -- Upgrades bitfield
 SWEP.Upgrades = 0
+
+-- Register for NPCs
+list.Add("NPCUsableWeapons", {class = CLASSNAME, title = SWEP.Category.." "..SWEP.PrintName})
 
 
 /*-----------------------------
